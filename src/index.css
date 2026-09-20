@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+/* ---- Design tokens：D 案 v4「Sand」+ Manrope ---- */
+@theme {
+  --color-ground: #f3ece1;
+  --color-s1: #faf5ec;
+  --color-s2: #eadfd0;
+  --color-s3: #ddcfbd;
+
+  --color-t1: #1e170f;
+  --color-t2: #4a3f34;
+  --color-t3: #75675a;
+
+  --color-accent: #a8421c;
+  --color-hair: rgb(60 40 20 / 0.14);
+  --color-hair-2: rgb(60 40 20 / 0.3);
+
+  --font-sans: "Manrope", "Noto Sans TC", system-ui, sans-serif;
+  --font-zh: "Noto Sans TC", "Manrope", system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, Consolas, monospace;
+
+  --radius-m: 12px;
+  --ease-quint: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    background: var(--color-ground);
+    color-scheme: light;
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-ground text-t1 font-zh antialiased;
+    font-size: 16px;
+    line-height: 1.75;
+    text-wrap: pretty;
+  }
+  h1, h2, h3, h4 {
+    text-wrap: balance;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-s1);
+  }
+}
+
+@layer utilities {
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  /* 頁面進場：350ms quint，上移 4px */
+  .page-enter {
+    animation: page-rise 0.35s var(--ease-quint) both;
+  }
+  @keyframes page-rise {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .page-enter { animation: none; }
+    html { scroll-behavior: auto; }
+  }
+}
