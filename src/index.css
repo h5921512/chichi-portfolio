@@ -49,6 +49,91 @@
   }
 }
 
+.skill-pills {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 10px;
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 6px 4px 10px;
+  isolation: isolate;
+}
+
+.skill-slot {
+  border-radius: 999px;
+}
+
+.skill-slot[data-placeholder] {
+  outline: 2px dashed var(--color-accent);
+  outline-offset: -1px;
+  background: var(--color-s2);
+}
+
+.skill-slot[data-placeholder] .skill-pill {
+  opacity: 0;
+}
+
+.skill-pill {
+  position: relative;
+  display: block;
+  min-height: 44px;
+  padding: 6px 16px;
+  border: 1px solid var(--color-hair-2);
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--color-s1), var(--color-s2));
+  color: var(--color-t2);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.5;
+  white-space: nowrap;
+  box-shadow: inset 0 2px 0 rgb(255 255 255 / 0.7), 0 4px 0 var(--color-s3), 0 6px 8px rgb(60 40 20 / 0.12);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+
+@media (hover: hover) {
+  .skill-pill:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-accent);
+    box-shadow: inset 0 2px 0 rgb(255 255 255 / 0.8), 0 6px 0 var(--color-s3), 0 9px 12px rgb(60 40 20 / 0.16);
+  }
+}
+
+.skill-pill:focus-visible,
+.skill-pill[aria-pressed='true'] {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 999px;
+}
+
+.skill-pill:active {
+  transform: translateY(2px);
+  cursor: grabbing;
+  box-shadow: inset 0 1px 2px rgb(60 40 20 / 0.1), 0 2px 0 var(--color-s3);
+}
+
+.skill-floating {
+  position: fixed;
+  z-index: 10;
+  pointer-events: none;
+  cursor: grabbing;
+  border-color: var(--color-accent);
+  box-shadow: inset 0 2px 0 rgb(255 255 255 / 0.8), 0 5px 0 var(--color-s3), 0 12px 18px rgb(60 40 20 / 0.2);
+  transition: none;
+}
+
+@media (min-width: 1600px) {
+  .skill-pills { gap: 14px 12px; }
+  .skill-pill { padding: 8px 18px; font-size: 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skill-pill { transition: none; }
+}
+
 @layer utilities {
   .no-scrollbar {
     scrollbar-width: none;
