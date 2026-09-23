@@ -26,23 +26,38 @@ function Works() {
 
       <WorksRow works={works} />
 
-      <ol className="m-0 mx-5 mt-8 list-none border-t border-hair p-0 md:mx-12 md:mt-10">
-        {works.map((w, i) => (
-          <li key={w.slug} className="border-b border-hair">
-            <Link
-              to="/works/$slug"
-              params={{ slug: w.slug }}
-              className="grid grid-cols-[30px_1fr_60px] items-baseline gap-3 py-3.5 text-[14px] transition-colors duration-150 hover:text-accent md:grid-cols-[36px_1.2fr_1fr_1fr_70px]"
-            >
-              <span className="font-mono text-[12px] text-t3">{String(i + 1).padStart(2, '0')}</span>
-              <span className="font-sans font-medium">{w.title}</span>
-              <span className="hidden font-mono text-[12px] text-t3 md:block">{w.media.join(' · ')}</span>
-              <span className="hidden text-[13px] text-accent md:block">{w.award?.split(' · ')[0]}</span>
-              <span className="text-right font-mono text-[12px] text-t3">{w.year}</span>
-            </Link>
-          </li>
-        ))}
-      </ol>
+      <section aria-label="作品索引" className="mx-5 mt-8 md:mx-12 md:mt-10">
+        <div aria-hidden="true" className="grid grid-cols-[40px_minmax(0,1fr)_80px] gap-3 border-b border-hair-2 pb-2 text-[11px] text-t3 lg:grid-cols-[64px_minmax(0,1fr)_minmax(0,1fr)_140px] lg:gap-6 lg:text-[12px]">
+          <span>年份</span>
+          <span>作品</span>
+          <span className="hidden lg:block">製作媒介</span>
+          <span>公司／學習階段</span>
+        </div>
+        <ol className="m-0 list-none p-0">
+          {works.map((w) => (
+            <li key={w.slug} className="border-b border-hair">
+              <Link
+                to="/works/$slug"
+                params={{ slug: w.slug }}
+                className="group grid min-h-11 grid-cols-[40px_minmax(0,1fr)_80px] items-center gap-x-3 gap-y-1 py-2.5 text-[14px] transition-colors duration-150 hover:bg-s1 lg:grid-cols-[64px_minmax(0,1fr)_minmax(0,1fr)_140px] lg:gap-x-6"
+              >
+                <span className="font-mono text-[12px] text-t3">{w.year}</span>
+                <span className="flex items-center gap-2 md:gap-3">
+                  <span className="whitespace-nowrap font-sans font-medium transition-colors group-hover:text-accent md:text-[16px]">{w.title}</span>
+                  {w.award && (
+                    <span aria-label={w.award} title={w.award} className="shrink-0 rounded-full border border-accent/20 bg-accent/5 px-2 py-0.5 text-[10px] text-accent sm:text-[11px]">
+                      <span aria-hidden="true" className="sm:hidden">金點</span>
+                      <span aria-hidden="true" className="hidden sm:inline">{w.award.split(' · ')[0]}</span>
+                    </span>
+                  )}
+                </span>
+                <span className="order-4 col-span-2 col-start-2 text-[12px] leading-5 text-t2 lg:order-3 lg:col-span-1 lg:col-start-auto">{w.media.join(' · ')}</span>
+                <span className="order-3 text-[12px] text-t2 lg:order-4 lg:text-[13px]">{w.context}</span>
+              </Link>
+            </li>
+          ))}
+        </ol>
+      </section>
 
       <Footer next={{ to: '/contact', label: 'Contact' }} />
     </main>

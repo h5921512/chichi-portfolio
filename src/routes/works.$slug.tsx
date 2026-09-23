@@ -1,6 +1,7 @@
 import { Link, createFileRoute, notFound } from '@tanstack/react-router'
 import { Footer } from '../components/Footer'
-import { Facts, PillAnchor, SectionTitle } from '../components/ui'
+import { WorkGallery } from '../components/WorkGallery'
+import { Facts, SectionTitle } from '../components/ui'
 import { getAdjacent, getWork } from '../data/works'
 
 export const Route = createFileRoute('/works/$slug')({
@@ -17,19 +18,25 @@ export const Route = createFileRoute('/works/$slug')({
 
 function WorkDetail() {
   const { work, prev, next } = Route.useLoaderData()
+  const videos = (work.videos ?? (work.video ? [{ title: '作品影片', url: work.video }] : [])).map((video) => {
+    const url = new URL(video.url)
+    const isShort = url.pathname.startsWith('/shorts/')
+    const id = url.hostname === 'youtu.be' ? url.pathname.slice(1) : isShort ? url.pathname.split('/')[2] : url.searchParams.get('v')
+    return { ...video, id, isShort }
+  })
 
   const facts = [
     { label: 'Media', value: work.media.join(', ') },
     { label: 'Role', value: work.roles.join('、') },
     { label: 'Year', value: work.year },
     ...(work.award ? [{ label: 'Award', value: work.award, accent: true }] : []),
-    { label: 'Team', value: <span className="text-t3">{work.team ?? '＿ 人 · ＿ 個月'}</span> },
+    ...(work.team ? [{ label: 'Team', value: <span className="text-t3">{work.team}</span> }] : []),
   ]
 
   return (
     <main className="page-enter flex flex-1 flex-col">
-      <div className="grid gap-7 px-5 pt-7 pb-10 md:grid-cols-[280px_1fr] md:gap-14 md:px-12 md:pt-10 md:pb-14">
-        <aside className="md:sticky md:top-5 md:self-start">
+      <div className="grid gap-7 px-5 pt-7 pb-10 md:grid-cols-[280px_minmax(0,1fr)] md:gap-14 md:px-12 md:pt-10 md:pb-14">
+        <aside className="order-2 md:order-1 md:row-span-2 md:sticky md:top-5 md:self-start">
           <Link to="/works" className="font-sans text-[13px] text-t2 transition-colors hover:text-t1">
             ← All works
           </Link>
@@ -42,21 +49,43 @@ function WorkDetail() {
           <div className="mt-5">
             <Facts items={facts} />
           </div>
-          {work.video && (
-            <PillAnchor href={work.video} target="_blank" rel="noreferrer" className="mt-5">
-              Watch video
-            </PillAnchor>
+          {work.website && (
+            <a href={work.website} target="_blank" rel="noopener noreferrer" className="mt-4 inline-block py-2 text-[14px] text-accent underline underline-offset-4 hover:text-t1">
+              專案官網 ↗
+            </a>
+          )}
+          {work.store && (
+            <a href={work.store} target="_blank" rel="noopener noreferrer" className="mt-4 inline-block py-2 text-[14px] text-accent underline underline-offset-4 hover:text-t1">
+              Meta Quest 商店 ↗
+            </a>
           )}
         </aside>
 
-        <article className="grid gap-7">
-          <img
-            src={work.cover}
-            alt={`${work.title} 主視覺`}
-            width={1280}
-            height={720}
-            className="aspect-video w-full rounded-m object-cover"
-          />
+        {videos.length > 0 && (
+          <div className="order-1 grid min-w-0 gap-7 md:order-2">
+            {videos.map((video) => video.id && (
+              <section key={video.id} aria-label={video.title}>
+                {videos.length > 1 && <h2 className="mb-3 text-[15px] font-medium">{video.title}</h2>}
+                <div className="flex min-w-0 justify-center overflow-hidden rounded-m bg-s2">
+                  <iframe
+                    src={`https://www.youtube-nocookie.com/embed/${video.id}`}
+                    title={`${work.title} ${video.title}`}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    className={video.isShort ? 'aspect-[9/16] w-[min(360px,39.375svh,100%)] border-0' : 'aspect-video w-full border-0'}
+                  />
+                </div>
+              </section>
+            ))}
+            {work.mobileVideo && (
+              <a href={work.mobileVideo} target="_blank" rel="noopener noreferrer" className="w-fit py-2 text-[14px] text-accent underline underline-offset-4 hover:text-t1">
+                手機版影片 ↗
+              </a>
+            )}
+          </div>
+        )}
+        <article className="order-3 grid min-w-0 gap-7 md:col-start-2">
           <div className="grid gap-8 md:grid-cols-2 md:gap-10">
             <div>
               <SectionTitle en="Concept" zh="創作理念" />
@@ -64,34 +93,27 @@ function WorkDetail() {
             </div>
             <div>
               <SectionTitle en="Controls" zh="操作" />
-              <ul className="m-0 list-none p-0">
-                {work.controls.map((c) => (
-                  <li
-                    key={c.key + c.text}
-                    className="grid grid-cols-[70px_1fr] gap-3.5 border-t border-hair py-[7px] text-[14px] text-t2"
-                  >
-                    <span className="pt-0.5 font-mono text-[12px] text-t1">{c.key}</span>
-                    <span>{c.text}</span>
-                  </li>
+              <div className="grid gap-5">
+                {(work.controlGroups ?? [{ title: '', controls: work.controls ?? [] }]).map((group) => (
+                  <div key={group.title}>
+                    {group.title && <h3 className="mb-2 text-[14px] font-medium text-t1">{group.title}</h3>}
+                    <ul className="m-0 grid list-none grid-cols-[minmax(70px,max-content)_minmax(0,1fr)] gap-x-3.5 p-0">
+                      {group.controls.map((c) => (
+                        <li
+                          key={c.key + c.text}
+                          className="col-span-2 grid grid-cols-subgrid border-t border-hair py-[7px] text-[14px] text-t2"
+                        >
+                          <span className="whitespace-nowrap pt-0.5 font-mono text-[12px] text-t1">{c.key}</span>
+                          <span>{c.text}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </div>
           </div>
-          {work.gallery.length > 0 && (
-            <div className="grid gap-5 md:grid-cols-2">
-              {work.gallery.map((src, i) => (
-                <img
-                  key={src}
-                  src={src}
-                  alt={`${work.title} 畫面 ${i + 1}`}
-                  loading="lazy"
-                  width={1280}
-                  height={720}
-                  className="aspect-video w-full rounded-m object-cover"
-                />
-              ))}
-            </div>
-          )}
+          <WorkGallery key={work.slug} title={work.title} images={[work.cover, ...work.gallery]} portrait={work.slug === 'sphere-lab'} />
           <nav className="flex items-end justify-between border-t border-hair pt-5" aria-label="上一件 / 下一件">
             {prev ? (
               <Link to="/works/$slug" params={{ slug: prev.slug }} className="group">
