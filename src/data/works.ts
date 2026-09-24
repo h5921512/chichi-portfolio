@@ -58,7 +58,7 @@ export const works: Work[] = [
     subtitle: 'A Black Climbing Dog · Team9 合作專案',
     year: '2026',
     category: 'Team9 合作專案',
-    context: 'Team9',
+    context: 'Team9 · 外包協作',
     media: ['Unity-VR', 'Meta Quest 3'],
     roles: ['程式設計', '關卡協作'],
     team: '5 人 · 8 個月',
