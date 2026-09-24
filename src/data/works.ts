@@ -90,7 +90,10 @@ export const works: Work[] = [
     roles: ['劇情企劃', '關卡設計', '程式設計'],
     award: '金點新秀設計獎 · 數位互動設計類',
     team: '5 人 · 12 個月',
-    video: 'https://www.youtube.com/watch?v=88uHfCe4Nuw',
+    videos: [
+      { title: '作品影片 1', url: 'https://youtu.be/7DkdQEMCP0U' },
+      { title: '作品影片 2', url: 'https://youtu.be/WXos338H-PM' },
+    ],
     summary: '用揮臂取代搖桿的 VR 跑酷，吸取能力改變路徑。',
     concept: '希望透過不同的 VR 移動方式，創造全新的跑酷體驗，搭配吸取能力效果配合關卡過關。',
     controls: [

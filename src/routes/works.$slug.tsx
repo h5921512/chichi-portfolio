@@ -1,6 +1,7 @@
 import { Link, createFileRoute, notFound } from '@tanstack/react-router'
 import { Footer } from '../components/Footer'
 import { WorkGallery } from '../components/WorkGallery'
+import { WorkVideo } from '../components/WorkVideo'
 import { Facts, SectionTitle } from '../components/ui'
 import { getAdjacent, getWork } from '../data/works'
 
@@ -66,16 +67,7 @@ function WorkDetail() {
             {videos.map((video) => video.id && (
               <section key={video.id} aria-label={video.title}>
                 {videos.length > 1 && <h2 className="mb-3 text-[15px] font-medium">{video.title}</h2>}
-                <div className="flex min-w-0 justify-center overflow-hidden rounded-m bg-s2">
-                  <iframe
-                    src={`https://www.youtube-nocookie.com/embed/${video.id}`}
-                    title={`${work.title} ${video.title}`}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowFullScreen
-                    referrerPolicy="strict-origin-when-cross-origin"
-                    className={video.isShort ? 'aspect-[9/16] w-[min(360px,39.375svh,100%)] border-0' : 'aspect-video w-full border-0'}
-                  />
-                </div>
+                <WorkVideo id={video.id} title={`${work.title} ${video.title}`} isShort={video.isShort} />
               </section>
             ))}
             {work.mobileVideo && (

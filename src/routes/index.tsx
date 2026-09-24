@@ -3,7 +3,7 @@ import { Footer } from '../components/Footer'
 import { SkillPills } from '../components/SkillPills'
 import { Facts, PillLink, TextLink } from '../components/ui'
 import { profile } from '../data/profile'
-import portrait from '../assets/portrait.jpg'
+import portrait from '../assets/optimized/portrait.webp'
 
 export const Route = createFileRoute('/')({
   component: About,

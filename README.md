@@ -28,9 +28,16 @@ npm run preview
 - 個人資料、聯絡方式、技能、經歷：`src/data/profile.ts`（標 `TODO` 的欄位為佔位）
 - 作品文字與圖片：`src/data/works.ts`，圖片放在 `src/assets/works/`
   - 目前的圖片是從原 PDF 取出的壓縮版，請以高解析原圖同名替換
-- 個人照：放到 `src/assets/portrait.jpg`，並把 `src/routes/index.tsx` 中的佔位方塊改為 `<img>`
+- 個人照：替換 `src/assets/portrait.jpg` 後重新產生顯示圖片。
 - 履歷 PDF：放進 `public/`，並在 `profile.ts` 設定 `resumeHref`（例如 `/chichi-portfolio/resume.pdf`）
 - 配色與字體：`src/index.css` 的 `@theme` 區塊（目前為 D 案 v4「Sand」，字體 Manrope + Noto Sans TC + Geist Mono）
+
+## 圖片與載入效能
+
+更新個人照或作品原圖後，使用已安裝 Pillow 的 Python 執行 `python scripts/optimize-images.py`。
+將產生的 `src/assets/optimized/` 與 `src/data/imageVariants.ts` 一起提交；一般建置不需要 Python。
+作品圖片提供最高 480、960、1600px 寬的 WebP（不放大原圖），由 `srcSet` 選擇；相簿放大時才載入原圖。
+YouTube 封面按下後才建立播放器。Google Fonts 非同步套用，載入前會先顯示系統替代字型。
 
 ## 部署（GitHub Pages）
 

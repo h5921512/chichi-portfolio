@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { imageVariants } from '../data/imageVariants'
 
 export function WorkGallery({ title, images, portrait = false }: { title: string; images: string[]; portrait?: boolean }) {
   const track = useRef<HTMLDivElement>(null)
@@ -119,7 +120,7 @@ export function WorkGallery({ title, images, portrait = false }: { title: string
             }}
             className={`w-full shrink-0 snap-center rounded-m transition-[scale,opacity] duration-300 motion-reduce:transition-none ${selected === index ? 'scale-100 opacity-100' : 'scale-90 opacity-60'}`}
           >
-            <img src={src} alt={`${title} 實機畫面 ${index + 1}`} draggable={false} loading="lazy" width={portrait ? 720 : 1280} height={portrait ? 1280 : 720} className={portrait ? 'mx-auto aspect-[9/16] w-full max-w-[360px] rounded-m bg-s2 object-contain' : 'aspect-video w-full rounded-m bg-s2 object-contain'} />
+            <img src={imageVariants[src].src} srcSet={imageVariants[src].srcSet} sizes={portrait ? '(min-width: 768px) 360px, 82vw' : '(min-width: 768px) calc((100vw - 432px) * 0.72), 82vw'} decoding="async" alt={`${title} 實機畫面 ${index + 1}`} draggable={false} loading="lazy" width={portrait ? 720 : 1280} height={portrait ? 1280 : 720} className={portrait ? 'mx-auto aspect-[9/16] w-full max-w-[360px] rounded-m bg-s2 object-contain' : 'aspect-video w-full rounded-m bg-s2 object-contain'} />
           </button>
         ))}
       </div>

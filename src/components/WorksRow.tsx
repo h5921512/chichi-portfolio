@@ -1,6 +1,7 @@
 import { Link } from '@tanstack/react-router'
 import { useRef, type KeyboardEvent } from 'react'
 import type { Work } from '../data/works'
+import { imageVariants } from '../data/imageVariants'
 
 /**
  * 橫向滑頁的作品列。滑鼠拖曳 / 觸控板橫滑 / 鍵盤 ← → 皆可切換。
@@ -81,7 +82,10 @@ export function WorksRow({ works }: { works: Work[] }) {
           className="group grid snap-start content-start gap-3.5 outline-none"
         >
           <img
-            src={w.cover}
+            src={imageVariants[w.cover].src}
+            srcSet={imageVariants[w.cover].srcSet}
+            sizes="(min-width: 768px) min(440px, 40vw), 84vw"
+            decoding="async"
             alt={`${w.title} 主視覺`}
             draggable={false}
             loading="lazy"
