@@ -1,5 +1,4 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { Footer } from '../components/Footer'
 import { SkillPills } from '../components/SkillPills'
 import { Facts, PillLink, TextLink } from '../components/ui'
 import { profile } from '../data/profile'
@@ -12,7 +11,7 @@ export const Route = createFileRoute('/')({
 
 function About() {
   return (
-    <main className="page-enter flex flex-1 flex-col lg:[&>footer]:mt-0">
+    <main className="page-enter flex flex-1 flex-col">
       <div className="mx-auto grid w-full max-w-[1640px] gap-9 px-5 py-7 md:px-12 lg:my-auto lg:grid-cols-[minmax(0,45fr)_minmax(0,55fr)] lg:gap-8 lg:py-3 min-[1600px]:gap-12 min-[1600px]:py-12">
         <section aria-labelledby="about-heading" className="min-w-0">
           <div className="flex items-center gap-5">
@@ -59,7 +58,6 @@ function About() {
           </section>
         </div>
       </div>
-      <Footer next={{ to: '/works', label: 'Works' }} />
     </main>
   )
 }

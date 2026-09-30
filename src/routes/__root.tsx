@@ -1,5 +1,6 @@
 import { HeadContent, Outlet, createRootRoute, Link } from '@tanstack/react-router'
 import { Nav } from '../components/Nav'
+import { Footer } from '../components/Footer'
 import { PillLink } from '../components/ui'
 
 export const Route = createRootRoute({
@@ -14,6 +15,7 @@ function RootLayout() {
       <HeadContent />
       <Nav />
       <Outlet />
+      <Footer />
     </div>
   )
 }

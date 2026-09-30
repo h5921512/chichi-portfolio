@@ -1,27 +1,28 @@
-import { Link } from '@tanstack/react-router'
-import type { ReactNode } from 'react'
 import { profile } from '../data/profile'
 
-type Props = {
-  /** 右側的「下一頁」連結，例如 { to: '/works', label: 'Works' } */
-  next?: { to: '/' | '/works' | '/contact'; label: string }
-  right?: ReactNode
-}
-
-export function Footer({ next, right }: Props) {
+export function Footer() {
   return (
-    <footer className="mt-auto flex items-center justify-between border-t border-hair px-5 py-5 font-mono text-[12px] text-t3 md:px-12">
+    <footer className="mt-auto flex flex-col gap-2 border-t border-hair px-5 py-4 font-mono text-[12px] text-t3 sm:flex-row sm:items-center sm:justify-between md:px-12">
       <span>© {new Date().getFullYear()} {profile.nameEn}</span>
-      {next ? (
-        <Link
-          to={next.to}
-          className="text-t2 underline decoration-hair-2 underline-offset-4 transition-colors duration-150 hover:text-t1 hover:decoration-accent"
+      <nav aria-label="聯絡方式" className="flex flex-wrap items-center gap-x-6 font-sans text-[14px] text-t2">
+        <a
+          href={`mailto:${profile.email}`}
+          className="inline-flex min-h-11 items-center underline decoration-hair-2 underline-offset-4 transition-colors duration-150 hover:text-accent"
         >
-          {next.label} →
-        </Link>
-      ) : (
-        right
-      )}
+          {profile.email}
+        </a>
+        {profile.links.map((link) => (
+          <a
+            key={link.href}
+            href={link.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex min-h-11 items-center gap-1 underline decoration-hair-2 underline-offset-4 transition-colors duration-150 hover:text-accent"
+          >
+            {link.label} <span aria-hidden="true">↗</span>
+          </a>
+        ))}
+      </nav>
     </footer>
   )
 }

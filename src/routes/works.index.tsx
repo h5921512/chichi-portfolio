@@ -1,5 +1,4 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
-import { Footer } from '../components/Footer'
 import { WorksRow } from '../components/WorksRow'
 import { works } from '../data/works'
 
@@ -59,7 +58,6 @@ function Works() {
         </ol>
       </section>
 
-      <Footer next={{ to: '/contact', label: 'Contact' }} />
     </main>
   )
 }

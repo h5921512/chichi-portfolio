@@ -33,6 +33,5 @@ export const profile = {
     { label: 'GitLab', value: 'gitlab.com/h5921512', href: 'https://gitlab.com/h5921512' },
   ],
   resumeHref: '', // TODO: 履歷 PDF 路徑，放在 public/ 下
-  contactLead: '正在尋找 Unity / VR 相關的正職或合作機會。專案洽談、技術交流都歡迎來信。', // TODO
   location: 'Taichung · UTC+8',
 } as const

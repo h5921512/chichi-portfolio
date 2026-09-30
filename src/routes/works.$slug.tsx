@@ -1,5 +1,4 @@
 import { Link, createFileRoute, notFound } from '@tanstack/react-router'
-import { Footer } from '../components/Footer'
 import { WorkGallery } from '../components/WorkGallery'
 import { WorkVideo } from '../components/WorkVideo'
 import { Facts, SectionTitle } from '../components/ui'
@@ -125,17 +124,16 @@ function WorkDetail() {
                 </span>
               </Link>
             ) : (
-              <Link to="/contact" className="group text-right">
+              <Link to="/works" className="group text-right">
                 <span className="mb-1.5 block font-mono text-[11.5px] text-t3">Next</span>
                 <span className="font-sans text-[18px] font-bold tracking-tight transition-colors group-hover:text-accent">
-                  Contact →
+                  All works →
                 </span>
               </Link>
             )}
           </nav>
         </article>
       </div>
-      <Footer right={<span>{work.year}</span>} />
     </main>
   )
 }

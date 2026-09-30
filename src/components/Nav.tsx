@@ -4,7 +4,6 @@ import { profile } from '../data/profile'
 const items = [
   { to: '/', label: 'About', exact: true },
   { to: '/works', label: 'Works', exact: false },
-  { to: '/contact', label: 'Contact', exact: true },
 ] as const
 
 export function Nav() {
