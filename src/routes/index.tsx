@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { SkillPills } from '../components/SkillPills'
 import { Facts, PillLink, TextLink } from '../components/ui'
 import { profile } from '../data/profile'
@@ -62,7 +62,7 @@ function About() {
   )
 }
 
-function Timeline({ items }: { items: ReadonlyArray<{ period: string; title: string; note?: string }> }) {
+function Timeline({ items }: { items: ReadonlyArray<{ period: string; title: string; note?: string | ReadonlyArray<{ text: string; slug?: string }> }> }) {
   return (
     <ul className="mt-2 grid list-none gap-2 p-0 lg:gap-1 min-[1600px]:mt-5 min-[1600px]:gap-6">
       {items.map((it) => (
@@ -70,7 +70,15 @@ function Timeline({ items }: { items: ReadonlyArray<{ period: string; title: str
           <span className="pt-0.5 font-sans text-[14px] tabular-nums text-t3 min-[1600px]:text-[16px]">{it.period}</span>
           <div>
             <span className="block text-[16px] font-semibold text-t1 min-[1600px]:text-[20px]">{it.title}</span>
-            {it.note && <span className="block whitespace-pre-line text-[16px] leading-relaxed text-t2 min-[1600px]:mt-1 min-[1600px]:text-[18px]">{it.note}</span>}
+            {it.note && (
+              <span className="block whitespace-pre-line text-[16px] leading-relaxed text-t2 min-[1600px]:mt-1 min-[1600px]:text-[18px]">
+                {typeof it.note === 'string' ? it.note : it.note.map((part, index) => part.slug ? (
+                  <Link key={index} to="/works/$slug" params={{ slug: part.slug }} className="underline decoration-hair-2 underline-offset-4 transition-colors hover:text-accent hover:decoration-accent">
+                    {part.text}
+                  </Link>
+                ) : part.text)}
+              </span>
+            )}
           </div>
         </li>
       ))}

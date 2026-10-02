@@ -1,4 +1,4 @@
-import { HeadContent, Outlet, createRootRoute, Link } from '@tanstack/react-router'
+import { HeadContent, Outlet, createRootRoute, Link, useRouterState } from '@tanstack/react-router'
 import { Nav } from '../components/Nav'
 import { Footer } from '../components/Footer'
 import { PillLink } from '../components/ui'
@@ -16,7 +16,27 @@ function RootLayout() {
       <Nav />
       <Outlet />
       <Footer />
+      <EdgeNavigation />
     </div>
+  )
+}
+
+function EdgeNavigation() {
+  const routeId = useRouterState({ select: (state) => state.matches.at(-1)?.routeId })
+  if (routeId !== '/' && routeId !== '/works/') return null
+  const isAbout = routeId === '/'
+
+  return (
+    <Link
+      to={isAbout ? '/works' : '/'}
+      className={`edge-navigation edge-navigation--${isAbout ? 'right' : 'left'}`}
+      aria-label={isAbout ? '前往 Works 作品頁' : '返回 About 關於我'}
+    >
+      <span className="edge-navigation__hint" aria-hidden="true">
+        <span className="edge-navigation__arrow">{isAbout ? '\u2192' : '\u2190'}</span>
+        <span>{isAbout ? 'Works' : 'About'}</span>
+      </span>
+    </Link>
   )
 }
 
